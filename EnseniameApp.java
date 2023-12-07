@@ -5,11 +5,14 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.awt.image.BufferedImage;
+
+import java.awt.event.FocusEvent;
 
 public class EnseniameApp {
     private JFrame frame;
@@ -62,9 +65,26 @@ public class EnseniameApp {
         imageLabel.setBorder(marginBorder);
         frame.add(imageLabel, gbc);
         // CREAR EL CAMPO DE TEXTO
-        JTextField campoNombre = new JTextField("INGRESE SU NOMBRE");
+        JTextField campoNombre = new JTextField(30);
+        campoNombre.setText("INGRESE SU NOMBRE");
         Font font = new Font("Arial", Font.PLAIN, 20);
         campoNombre.setFont(font);
+        campoNombre.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (campoNombre.getText().equals("INGRESE SU NOMBRE")) {
+                    campoNombre.setText("");
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (campoNombre.getText().isEmpty()) {
+                    campoNombre.setText("INGRESE SU NOMBRE");
+                }
+            }
+        });
+
         gbc.gridy = 1;
         frame.add(campoNombre, gbc);
         // CREAR TEXTO DE BIENVENIDA
@@ -88,6 +108,7 @@ public class EnseniameApp {
             public void actionPerformed(ActionEvent e) {
                 String nombre = campoNombre.getText();
                 bienvenida.setText("BIENVENIDO A ENSENIAME " + nombre);
+                botonAceptar.setEnabled(false);
             }
         });
 
@@ -204,6 +225,21 @@ public class EnseniameApp {
         saludosPanel.setBackground(new Color(12, 143, 143)); // Cambiar el color de fondo a amarillo
 
         JTextField buscador = new JTextField("INGRESE SALUDO O FRASE A BUSCAR"); // Crear el campo de texto
+        buscador.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (buscador.getText().equals("INGRESE SALUDO O FRASE A BUSCAR")) {
+                    buscador.setText("");
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (buscador.getText().isEmpty()) {
+                    buscador.setText("INGRESE SALUDO O FRASE A BUSCAR");
+                }
+            }
+        });
         // Boton para buscar
         JButton botonBuscar = new JButton("BUSCAR");
         botonBuscar.setBackground(Color.BLACK);
@@ -347,37 +383,52 @@ public class EnseniameApp {
 
     private void showAbecedario() {
     frame.getContentPane().removeAll();
-
+    frame.setLayout(new BorderLayout());
     JPanel abecedarioPanel = new JPanel();
     abecedarioPanel.setLayout(new GridLayout(4, 7, 20, 20)); // Se agrega un espacio para el botón de vuelta
 
     // Crea los botones con las imágenes correspondientes
-    JButton aButton = createButtonWithImage("A", "img/A.png");
-    JButton bButton = createButtonWithImage("B", "img/B.png");
-    JButton cButton = createButtonWithImage("C", "img/C.png");
-    JButton dButton = createButtonWithImage("D", "img/D.png");
-    JButton eButton = createButtonWithImage("E", "img/E.png");
-    JButton fButton = createButtonWithImage("F", "img/F.png");
-    JButton gButton = createButtonWithImage("G", "img/G.png");
-    JButton hButton = createButtonWithImage("H", "img/H.png");
-    JButton iButton = createButtonWithImage("I", "img/I.png");
-    JButton jButton = createButtonWithImage("J", "img/J.png");
-    JButton kButton = createButtonWithImage("K", "img/K.png");
-    JButton lButton = createButtonWithImage("L", "img/L.png");
-    JButton mButton = createButtonWithImage("M", "img/M.png");
-    JButton nButton = createButtonWithImage("N", "img/N.png");
-    JButton oButton = createButtonWithImage("O", "img/O.png");
-    JButton pButton = createButtonWithImage("P", "img/P.png");
-    JButton qButton = createButtonWithImage("Q", "img/Q.png");
-    JButton rButton = createButtonWithImage("R", "img/R.png");
-    JButton sButton = createButtonWithImage("S", "img/S.png");
-    JButton tButton = createButtonWithImage("T", "img/T.png");
-    JButton uButton = createButtonWithImage("U", "img/U.png");
-    JButton vButton = createButtonWithImage("V", "img/V.png");
-    JButton wButton = createButtonWithImage("W", "img/W.png");
-    JButton xButton = createButtonWithImage("X", "img/X.png");
-    JButton yButton = createButtonWithImage("Y", "img/Y.png");
-    JButton zButton = createButtonWithImage("Z", "img/Z.png");
+    JButton aButton = createButtonWithImage("A", "img/letraA.png");
+    JButton bButton = createButtonWithImage("B", "img/letraB.png");
+    JButton cButton = createButtonWithImage("C", "img/letraC.png");
+    JButton dButton = createButtonWithImage("D", "img/letraD.png");
+    JButton eButton = createButtonWithImage("E", "img/letraE.png");
+    JButton fButton = createButtonWithImage("F", "img/letraF.png");
+    JButton gButton = createButtonWithImage("G", "img/letraG.png");
+    JButton hButton = createButtonWithImage("H", "img/letraH.png");
+    JButton iButton = createButtonWithImage("I", "img/letraI.png");
+    JButton jButton = createButtonWithImage("J", "img/letraJ.png");
+    JButton kButton = createButtonWithImage("K", "img/letraK.png");
+    JButton lButton = createButtonWithImage("L", "img/letraL.png");
+    JButton mButton = createButtonWithImage("M", "img/letraM.png");
+    JButton nButton = createButtonWithImage("N", "img/letraN.png");
+    JButton oButton = createButtonWithImage("O", "img/letraO.png");
+    JButton pButton = createButtonWithImage("P", "img/letraP.png");
+    JButton qButton = createButtonWithImage("Q", "img/letraQ.png");
+    JButton rButton = createButtonWithImage("R", "img/letraR.png");
+    JButton sButton = createButtonWithImage("S", "img/letraS.png");
+    JButton tButton = createButtonWithImage("T", "img/letraT.png");
+    JButton uButton = createButtonWithImage("U", "img/letraU.png");
+    JButton vButton = createButtonWithImage("V", "img/letraV.png");
+    JButton wButton = createButtonWithImage("W", "img/letraW.png");
+    JButton xButton = createButtonWithImage("X", "img/letraX.png");
+    JButton yButton = createButtonWithImage("Y", "img/letraY.png");
+    JButton zButton = createButtonWithImage("Z", "img/letraZ.png");
+
+    // Funcionalidades de los botones
+    aButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            showLetra("A de abeja", "img/letraA.png", "img/A.png", "Arbol", "img/arbol.png");
+        }
+    });
+
+    bButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            showLetra("B de banana", "img/letraB.png", "img/B.png", "Bolivia", "img/bolivia.png");
+        }
+    });
 
     abecedarioPanel.add(aButton);
     abecedarioPanel.add(bButton);
@@ -412,6 +463,102 @@ public class EnseniameApp {
 
     backButton.setVisible(true); // Se muestra el botón de vuelta
     frame.getContentPane().add(abecedarioPanel, BorderLayout.CENTER);
+    frame.revalidate();
+    frame.repaint();
+}
+
+private void showLetra(String titulo, String imagenLetra, String imagenSenia, String otraPalabra,
+        String imagenOtraPalabra) {
+    frame.getContentPane().removeAll();
+    frame.setLayout(new GridBagLayout());
+    GridBagConstraints gbc = new GridBagConstraints();
+    // Imagen Letra
+    BufferedImage imagen = null;
+    try {
+        imagen = ImageIO.read(new File(imagenLetra));
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    ImageIcon imageIcon = new ImageIcon(imagen);
+    Image scaledImage = imageIcon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+    ImageIcon scaledIcon = new ImageIcon(scaledImage);
+    JLabel imagenPrincipalLabel = new JLabel(scaledIcon);
+    gbc.gridx = 0;
+    gbc.gridy = 0;
+    frame.add(imagenPrincipalLabel);
+    // Titulo
+    JLabel bienvenida = new JLabel(titulo);
+    Font font = new Font("Arial", Font.PLAIN, 30);
+    bienvenida.setFont(font);
+    bienvenida.setForeground(Color.WHITE);
+    marginBorder = new EmptyBorder(20, 0, 20, 80);
+    bienvenida.setBorder(marginBorder);
+    gbc.gridx = 1;
+    gbc.gridy = 0;
+    frame.add(bienvenida, gbc);
+    // Texto Seña
+    JLabel senia = new JLabel("Senia");
+    font = new Font("Arial", Font.PLAIN, 20);
+    senia.setFont(font);
+    senia.setForeground(Color.WHITE);
+    marginBorder = new EmptyBorder(20, 0, 20, 80);
+    senia.setBorder(marginBorder);
+    gbc.gridx = 0;
+    gbc.gridy = 1;
+    frame.add(senia, gbc);
+    // Texto Otra Palabra
+    JLabel textoOtraPalabra = new JLabel("Otra palabra con esta letra: " + otraPalabra);
+    font = new Font("Arial", Font.PLAIN, 20);
+    textoOtraPalabra.setFont(font);
+    textoOtraPalabra.setForeground(Color.WHITE);
+    marginBorder = new EmptyBorder(20, 0, 20, 0);
+    textoOtraPalabra.setBorder(marginBorder);
+    gbc.gridx = 1;
+    gbc.gridy = 1;
+    frame.add(textoOtraPalabra, gbc);
+    // Imagen Senia
+    imagen = null;
+    try {
+        imagen = ImageIO.read(new File(imagenSenia));
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    imageIcon = new ImageIcon(imagen);
+    scaledImage = imageIcon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+    scaledIcon = new ImageIcon(scaledImage);
+    JLabel imagenSeniaLabel = new JLabel(scaledIcon);
+    gbc.gridx = 0;
+    gbc.gridy = 2;
+    frame.add(imagenSeniaLabel, gbc);
+    // Imagen otra palabra
+    imagen = null;
+    try {
+        imagen = ImageIO.read(new File(imagenOtraPalabra));
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    imageIcon = new ImageIcon(imagen);
+    scaledImage = imageIcon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+    scaledIcon = new ImageIcon(scaledImage);
+    JLabel imagenOtraPalabraLabel = new JLabel(scaledIcon);
+    gbc.gridx = 1;
+    gbc.gridy = 2;
+    frame.add(imagenOtraPalabraLabel, gbc);
+    // BOTON DE VOLVER
+    JButton botonVolverAbecedario = new JButton("VOLVER");
+    botonVolverAbecedario.setBackground(Color.BLACK);
+    botonVolverAbecedario.setForeground(Color.WHITE);
+    // Funcionalidad de IR A MENU
+    botonVolverAbecedario.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            showAbecedario();
+        }
+    });
+    gbc.gridx = 0;
+    gbc.gridy = 3;
+    gbc.gridwidth = 2;
+    frame.add(botonVolverAbecedario, gbc);
     frame.revalidate();
     frame.repaint();
 }
