@@ -12,7 +12,6 @@ import java.awt.image.BufferedImage;
 public class EnseniameApp {
     private JFrame frame;
     private JPanel welcomePanel;
-    private JLabel welcomeLabel;
     private JPanel menuPanel;
     private JButton abecedarioButton;
     private JButton familiaButton;
@@ -28,6 +27,12 @@ public class EnseniameApp {
         frame.getContentPane().setBackground(new Color(12, 143, 143));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
+        showMain();
+        frame.setVisible(true);
+
+    }
+
+    private void showMain() {
         frame.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         // CREAR LOGO
@@ -53,12 +58,48 @@ public class EnseniameApp {
         campoNombre.setFont(font);
         gbc.gridy = 1;
         frame.add(campoNombre, gbc);
+        // CREAR TEXTO DE BIENVENIDA
+        JLabel bienvenida = new JLabel("BIENVENIDO A ENSENIAME");
+        font = new Font("Arial", Font.PLAIN, 20);
+        bienvenida.setFont(font);
+        bienvenida.setForeground(Color.WHITE);
+        marginBorder = new EmptyBorder(40, 0, 20, 0);
+        bienvenida.setBorder(marginBorder);
+        gbc.gridy = 2;
+        frame.add(bienvenida, gbc);
+        // CREAR BOTON DE ACEPTAR
+        JButton botonAceptar = new JButton("ACEPTAR");
+        botonAceptar.setBackground(Color.BLACK);
+        botonAceptar.setForeground(Color.WHITE);
+        gbc.gridy = 3;
+        frame.add(botonAceptar, gbc);
+        // Funcionalidad del nombre
+        botonAceptar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String nombre = campoNombre.getText();
+                bienvenida.setText("BIENVENIDO A ENSENIAME " + nombre);
+            }
+        });
 
-        frame.setVisible(true);
-
+        // CREAR BOTON DE IR A MENU
+        JButton botonMenu = new JButton("IR AL MENU");
+        botonMenu.setBackground(Color.BLACK);
+        botonMenu.setForeground(Color.WHITE);
+        // Funcionalidad de IR A MENU
+        botonMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showMenu();
+            }
+        });
+        gbc.gridy = 4;
+        frame.add(botonMenu, gbc);
     }
 
-    private void showMenuPanel() {
+    private void showMenu() {
+        frame.getContentPane().removeAll();
+        frame.setLayout(new BorderLayout());
         menuPanel = new JPanel();
         menuPanel.setBackground(new Color(12, 143, 143));
         menuPanel.setLayout(new GridLayout(4, 1, 20, 20)); // Se agrega un espacio para el botón de vuelta
@@ -86,8 +127,11 @@ public class EnseniameApp {
     
         menuPanel.add(backButton); // Se agrega el botón de vuelta al menú
 
-        frame.add(welcomePanel, BorderLayout.NORTH);
+        // frame.add(welcomePanel, BorderLayout.NORTH);
         frame.add(menuPanel, BorderLayout.CENTER);
+
+        frame.revalidate();
+        frame.repaint();
     }
 
     private JButton createButton(String text) {
@@ -109,14 +153,6 @@ public class EnseniameApp {
         }
     }
 
-    private void showMenu() {
-        frame.getContentPane().removeAll();
-        frame.getContentPane().add(welcomePanel, BorderLayout.NORTH);
-        frame.getContentPane().add(menuPanel, BorderLayout.CENTER);
-        backButton.setVisible(false); // Se oculta el botón de vuelta en el menú principal
-        frame.revalidate();
-        frame.repaint();
-    }
 
     //////
     private void showSaludos() {
