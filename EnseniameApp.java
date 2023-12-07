@@ -11,13 +11,18 @@ import java.awt.image.BufferedImage;
 
 public class EnseniameApp {
     private JFrame frame;
-    private JPanel welcomePanel;
     private JPanel menuPanel;
     private JButton abecedarioButton;
     private JButton familiaButton;
     private JButton saludosButton;
     private JButton backButton; // Botón de vuelta
     private EmptyBorder marginBorder;
+    private JButton padreButton;
+    private JButton madreButton;
+    private JButton hermanoButton;
+    private JButton hermanaButton;
+    private JButton abueloButton;
+    private JButton abuelaButton;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new EnseniameApp());
@@ -136,8 +141,8 @@ public class EnseniameApp {
 
     private JButton createButton(String text) {
         JButton button = new JButton(text);
-        button.setMaximumSize(new Dimension(10, 10)); // Establecer el tamaño máximo
-        button.setPreferredSize(new Dimension(10, 10)); // Establecer el tamaño preferido
+        button.setMaximumSize(new Dimension(60, 30)); // Establecer el tamaño máximo
+        button.setPreferredSize(new Dimension(60, 30)); // Establecer el tamaño preferido
         button.addActionListener(e -> handleButtonClick(e));
         return button;
     }
@@ -150,9 +155,57 @@ public class EnseniameApp {
             showSaludos();
         } else if (e.getSource() == backButton) { // Manejo del botón de vuelta
             showMenu();
+        } else if (e.getSource() == padreButton) {
+            showFamiliaGif("PADRE", "img/Padres.gif");
+        } else if (e.getSource() == madreButton) {
+            showFamiliaGif("MADRE", "img/Madre.gif");
+        } else if (e.getSource() == hermanoButton) {
+            showFamiliaGif("HERMANO", "img/Hermano.gif");
+        } else if (e.getSource() == hermanaButton) {
+            showFamiliaGif("HERMANA", "img/Hermana.gif");
+        } else if (e.getSource() == abueloButton) {
+            showFamiliaGif("ABUELO", "img/Abuelo.gif");
+        } else if (e.getSource() == abuelaButton) {
+            showFamiliaGif("ABUELA", "img/Abuela.gif");
         }
+
     }
 
+    private void showFamiliaGif(String title, String gif) {
+        frame.getContentPane().removeAll();
+        frame.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        // Titulo
+        JLabel bienvenida = new JLabel(title);
+        Font font = new Font("Arial", Font.PLAIN, 20);
+        bienvenida.setFont(font);
+        bienvenida.setForeground(Color.WHITE);
+        marginBorder = new EmptyBorder(40, 0, 40, 0);
+        bienvenida.setBorder(marginBorder);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        frame.add(bienvenida, gbc);
+        // GIF
+        ImageIcon gifIcon = new ImageIcon(gif);
+        JLabel gifLabel = new JLabel(gifIcon);
+        gbc.gridy = 1;
+        frame.add(gifLabel, gbc);
+        // BOTON DE VOLVER
+        JButton botonVolverFamilia = new JButton("VOLVER");
+        botonVolverFamilia.setBackground(Color.BLACK);
+        botonVolverFamilia.setForeground(Color.WHITE);
+        // Funcionalidad de IR A MENU
+        botonVolverFamilia.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showFamilia();
+            }
+        });
+        gbc.gridy = 2;
+        frame.add(botonVolverFamilia, gbc);
+        frame.revalidate();
+        frame.repaint();
+    }
 
     //////
     private void showSaludos() {
@@ -181,16 +234,16 @@ public class EnseniameApp {
 
     private void showFamilia() {
         frame.getContentPane().removeAll();
-    
+        frame.setLayout(new BorderLayout());
         JPanel familiaPanel = new JPanel();
         familiaPanel.setLayout(new GridLayout(4, 1, 20, 20)); // Se agrega un espacio para el botón de vuelta
     
-        JButton padreButton = createButton("Padre");
-        JButton madreButton = createButton("Madre");
-        JButton hermanoButton = createButton("Hermano");
-        JButton hermanaButton = createButton("Hermana");
-        JButton abueloButton = createButton("Abuelo");
-        JButton abuelaButton = createButton("Abuela");
+        padreButton = createButton("Padre");
+        madreButton = createButton("Madre");
+        hermanoButton = createButton("Hermano");
+        hermanaButton = createButton("Hermana");
+        abueloButton = createButton("Abuelo");
+        abuelaButton = createButton("Abuela");
     
         familiaPanel.setBackground(new Color(12, 143, 143)); // Cambiar el color de fondo a amarillo
     
@@ -213,49 +266,7 @@ public class EnseniameApp {
         familiaPanel.add(backButton); // Se agrega el botón de vuelta a la sección
     
         backButton.setVisible(true); // Se muestra el botón de vuelta
-    
-        // Agregar ActionListener al botón para mostrar el GIF del Padre
-        padreButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // mostrarGif("src/Papá.gif");
-            }
-        });
-    
-        // Agregar ActionListener al botón para mostrar el GIF de la Madre
-        madreButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // mostrarGif("src/Ma.gif");
-            }
-        });
-    
-        // Agregar ActionListener al botón para mostrar el GIF del Hermano
-        hermanoButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // mostrarGif("src/Hermano.gif");
-            }
-        });
-    
-        // Agregar ActionListener al botón para mostrar el GIF de la Hermana
-        hermanaButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // mostrarGif("src/Hermana.gif");
-            }
-        });
-    
-        // Agregar ActionListener al botón para mostrar el GIF del Abuelo
-        abueloButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // mostrarGif("src/Abuelo.gif");
-            }
-        });
-    
-        // Agregar ActionListener al botón para mostrar el GIF de la Abuela
-        abuelaButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // mostrarGif("src/Abuela.gif");
-            }
-        });
-    
+
         frame.getContentPane().add(familiaPanel, BorderLayout.CENTER);
         frame.revalidate();
         frame.repaint();
@@ -269,32 +280,32 @@ public class EnseniameApp {
     abecedarioPanel.setLayout(new GridLayout(4, 7, 20, 20)); // Se agrega un espacio para el botón de vuelta
 
     // Crea los botones con las imágenes correspondientes
-    JButton aButton = createButtonWithImage("A", "src/letraA.png");
-    JButton bButton = createButtonWithImage("B", "src/letraB.png");
-    JButton cButton = createButtonWithImage("C", "src/letraC.png");
-    JButton dButton = createButtonWithImage("D", "src/letraD.png");
-    JButton eButton = createButtonWithImage("E", "src/letraE.png");
-    JButton fButton = createButtonWithImage("F", "src/letraF.png");
-    JButton gButton = createButtonWithImage("G", "src/letraG.png");
-    JButton hButton = createButtonWithImage("H", "src/letraH.png");
-    JButton iButton = createButtonWithImage("I", "src/letraI.png");
-    JButton jButton = createButtonWithImage("J", "src/letraJ.png");
-    JButton kButton = createButtonWithImage("K", "src/letraK.png");
-    JButton lButton = createButtonWithImage("L", "src/letraL.png");
-    JButton mButton = createButtonWithImage("M", "src/letraM.png");
-    JButton nButton = createButtonWithImage("N", "src/letraN.png");
-    JButton oButton = createButtonWithImage("O", "src/letraO.png");
-    JButton pButton = createButtonWithImage("P", "src/letraP.png");
-    JButton qButton = createButtonWithImage("Q", "src/letraQ.png");
-    JButton rButton = createButtonWithImage("R", "src/letraR.png");
-    JButton sButton = createButtonWithImage("S", "src/letraS.png");
-    JButton tButton = createButtonWithImage("T", "src/letraT.png");
-    JButton uButton = createButtonWithImage("U", "src/letraU.png");
-    JButton vButton = createButtonWithImage("V", "src/letraV.png");
-    JButton wButton = createButtonWithImage("W", "src/letraW.png");
-    JButton xButton = createButtonWithImage("X", "src/letraX.png");
-    JButton yButton = createButtonWithImage("Y", "src/letraY.png");
-    JButton zButton = createButtonWithImage("Z", "src/letraZ.png");
+    JButton aButton = createButtonWithImage("A", "img/A.png");
+    JButton bButton = createButtonWithImage("B", "img/B.png");
+    JButton cButton = createButtonWithImage("C", "img/C.png");
+    JButton dButton = createButtonWithImage("D", "img/D.png");
+    JButton eButton = createButtonWithImage("E", "img/E.png");
+    JButton fButton = createButtonWithImage("F", "img/F.png");
+    JButton gButton = createButtonWithImage("G", "img/G.png");
+    JButton hButton = createButtonWithImage("H", "img/H.png");
+    JButton iButton = createButtonWithImage("I", "img/I.png");
+    JButton jButton = createButtonWithImage("J", "img/J.png");
+    JButton kButton = createButtonWithImage("K", "img/K.png");
+    JButton lButton = createButtonWithImage("L", "img/L.png");
+    JButton mButton = createButtonWithImage("M", "img/M.png");
+    JButton nButton = createButtonWithImage("N", "img/N.png");
+    JButton oButton = createButtonWithImage("O", "img/O.png");
+    JButton pButton = createButtonWithImage("P", "img/P.png");
+    JButton qButton = createButtonWithImage("Q", "img/Q.png");
+    JButton rButton = createButtonWithImage("R", "img/R.png");
+    JButton sButton = createButtonWithImage("S", "img/S.png");
+    JButton tButton = createButtonWithImage("T", "img/T.png");
+    JButton uButton = createButtonWithImage("U", "img/U.png");
+    JButton vButton = createButtonWithImage("V", "img/V.png");
+    JButton wButton = createButtonWithImage("W", "img/W.png");
+    JButton xButton = createButtonWithImage("X", "img/X.png");
+    JButton yButton = createButtonWithImage("Y", "img/Y.png");
+    JButton zButton = createButtonWithImage("Z", "img/Z.png");
 
     abecedarioPanel.add(aButton);
     abecedarioPanel.add(bButton);
@@ -348,29 +359,5 @@ public class EnseniameApp {
     button.setVerticalTextPosition(SwingConstants.BOTTOM);
     button.setHorizontalTextPosition(SwingConstants.CENTER);
     return button;
-    }
-}
-
-class LogoPanel extends JPanel {
-    private BufferedImage image;
-
-    public LogoPanel() {
-        try {
-            // Load the image from a file
-            image = ImageIO.read(new File("img/logo.jpg"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
-        // Draw the image at a specific (x, y) position
-        int x = 50; // Adjust the x-coordinate as needed
-        int y = 20; // Adjust the y-coordinate as needed
-
-        g.drawImage(image, x, y, this);
     }
 }
