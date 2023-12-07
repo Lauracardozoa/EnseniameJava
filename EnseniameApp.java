@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.awt.image.BufferedImage;
 
 public class EnseniameApp {
@@ -15,7 +17,8 @@ public class EnseniameApp {
     private JButton abecedarioButton;
     private JButton familiaButton;
     private JButton saludosButton;
-    private JButton backButton; // Botón de vuelta
+    private JButton backButton;
+    private JButton backToMainButton;
     private EmptyBorder marginBorder;
     private JButton padreButton;
     private JButton madreButton;
@@ -38,6 +41,7 @@ public class EnseniameApp {
     }
 
     private void showMain() {
+        frame.getContentPane().removeAll();
         frame.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         // CREAR LOGO
@@ -100,6 +104,8 @@ public class EnseniameApp {
         });
         gbc.gridy = 4;
         frame.add(botonMenu, gbc);
+        frame.revalidate();
+        frame.repaint();
     }
 
     private void showMenu() {
@@ -127,10 +133,11 @@ public class EnseniameApp {
         menuPanel.add(familiaButton);
         menuPanel.add(saludosButton);
     
-        backButton = createButton("Volver"); // Se agrega el botón de vuelta
-        backButton.setVisible(false); // Se oculta inicialmente
-    
-        menuPanel.add(backButton); // Se agrega el botón de vuelta al menú
+        backToMainButton = createButton("Volver"); // Se agrega el botón de vuelta a la pantalla principal
+        menuPanel.add(backToMainButton); // Se agrega el botón de vuelta a la pantalla principal
+
+        backButton = createButton("Volver");
+        backButton.setVisible(false);
 
         // frame.add(welcomePanel, BorderLayout.NORTH);
         frame.add(menuPanel, BorderLayout.CENTER);
@@ -167,11 +174,64 @@ public class EnseniameApp {
             showFamiliaGif("ABUELO", "img/Abuelo.gif");
         } else if (e.getSource() == abuelaButton) {
             showFamiliaGif("ABUELA", "img/Abuela.gif");
+        } else if (e.getSource() == backToMainButton) {
+            showMain();
         }
 
     }
 
-    private void showFamiliaGif(String title, String gif) {
+    //////
+    private void showSaludos() {
+        // Mapa con los Saludos y Frases
+        Map<String, String> validos = new HashMap<>();
+        validos.put("hola", "img/Hola.gif");
+        validos.put("buenos dias", "img/BuenosDias.gif");
+        validos.put("buenas tardes", "img/BuenasTardes.gif");
+        validos.put("buenas noches", "img/BuenasNoches.gif");
+        validos.put("adios", "img/Adios.gif");
+        validos.put("hasta pronto", "img/HastaManana.gif");
+        validos.put("que tal", "img/Quetal.gif");
+        validos.put("bien", "img/Bien.gif");
+        validos.put("regular", "img/Regular.gif");
+        validos.put("mal", "img/Mal.gif");
+        validos.put("mi nombre", "img/MiNombre.gif");
+        validos.put("yo soy sordo", "img/Sordo.gif");
+
+        frame.getContentPane().removeAll();
+        frame.setLayout(new BorderLayout());
+        JPanel saludosPanel = new JPanel();
+        saludosPanel.setLayout(new GridLayout(4, 1, 20, 20)); // Se agrega un espacio para el botón de vuelta
+        saludosPanel.setBackground(new Color(12, 143, 143)); // Cambiar el color de fondo a amarillo
+
+        JTextField buscador = new JTextField("INGRESE SALUDO O FRASE A BUSCAR"); // Crear el campo de texto
+        // Boton para buscar
+        JButton botonBuscar = new JButton("BUSCAR");
+        botonBuscar.setBackground(Color.BLACK);
+        botonBuscar.setForeground(Color.WHITE);
+        // Funcionalidad de IR A MENU
+        botonBuscar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String busqueda = buscador.getText().strip().toLowerCase();
+                if (validos.containsKey(busqueda)) {
+                    showSaludoGif(busqueda.toUpperCase(), validos.get(busqueda));
+                } else {
+                    JOptionPane.showMessageDialog(frame, "Aun no conozco ese saludo o frase");
+                }
+            }
+        });
+        saludosPanel.add(buscador); // Agregar el campo de texto al panel
+        saludosPanel.add(botonBuscar);
+        saludosPanel.add(backButton); // Se agrega el botón de vuelta a la sección
+
+        backButton.setVisible(true); // Se muestra el botón de vuelta
+
+        frame.getContentPane().add(saludosPanel, BorderLayout.CENTER);
+        frame.revalidate();
+        frame.repaint();
+    }
+
+    private void showSaludoGif(String title, String gif) {
         frame.getContentPane().removeAll();
         frame.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -198,7 +258,7 @@ public class EnseniameApp {
         botonVolverFamilia.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                showFamilia();
+                showSaludos();
             }
         });
         gbc.gridy = 2;
@@ -206,30 +266,6 @@ public class EnseniameApp {
         frame.revalidate();
         frame.repaint();
     }
-
-    //////
-    private void showSaludos() {
-        frame.getContentPane().removeAll();
-    
-        JPanel saludosPanel = new JPanel();
-        saludosPanel.setLayout(new GridLayout(4, 1, 20, 20)); // Se agrega un espacio para el botón de vuelta
-        saludosPanel.setBackground(new Color(12, 143, 143)); // Cambiar el color de fondo a amarillo
-    
-        JTextField textField = new JTextField(); // Crear el campo de texto
-    
-        saludosPanel.add(textField); // Agregar el campo de texto al panel
-        saludosPanel.add(backButton); // Se agrega el botón de vuelta a la sección
-    
-        backButton.setVisible(true); // Se muestra el botón de vuelta
-    
-        frame.getContentPane().add(saludosPanel, BorderLayout.CENTER);
-        frame.revalidate();
-        frame.repaint();
-    }
-        
-
-
-    /////
 
 
     private void showFamilia() {
@@ -272,6 +308,42 @@ public class EnseniameApp {
         frame.repaint();
     }
 
+
+    private void showFamiliaGif(String title, String gif) {
+        frame.getContentPane().removeAll();
+        frame.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        // Titulo
+        JLabel bienvenida = new JLabel(title);
+        Font font = new Font("Arial", Font.PLAIN, 20);
+        bienvenida.setFont(font);
+        bienvenida.setForeground(Color.WHITE);
+        marginBorder = new EmptyBorder(40, 0, 40, 0);
+        bienvenida.setBorder(marginBorder);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        frame.add(bienvenida, gbc);
+        // GIF
+        ImageIcon gifIcon = new ImageIcon(gif);
+        JLabel gifLabel = new JLabel(gifIcon);
+        gbc.gridy = 1;
+        frame.add(gifLabel, gbc);
+        // BOTON DE VOLVER
+        JButton botonVolverFamilia = new JButton("VOLVER");
+        botonVolverFamilia.setBackground(Color.BLACK);
+        botonVolverFamilia.setForeground(Color.WHITE);
+        // Funcionalidad de IR A MENU
+        botonVolverFamilia.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showFamilia();
+            }
+        });
+        gbc.gridy = 2;
+        frame.add(botonVolverFamilia, gbc);
+        frame.revalidate();
+        frame.repaint();
+    }
 
     private void showAbecedario() {
     frame.getContentPane().removeAll();
